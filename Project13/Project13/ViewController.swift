@@ -25,6 +25,7 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
     }
     
     @IBAction func intensityChanged(sender: AnyObject) {
+        applyProcessing()
     }
     
     override func viewDidLoad() {
@@ -67,7 +68,7 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
         
         currentImage = newImage
         
-        // Create a CIImage object with the current image and pass into the filter
+        // Create a CIImage object with the current image and passed as input image for filter
         let beginImage = CIImage(image: currentImage)
         currentFilter.setValue(beginImage, forKey: kCIInputImageKey)
         
@@ -77,6 +78,15 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
     // This method closes the Image Picker Controller when user presses cancel
     func imagePickerControllerDidCancel(picker: UIImagePickerController) {
         dismissViewControllerAnimated(true, completion: nil)
+    }
+    
+    func applyProcessing() {
+        currentFilter.setValue(intensity.value, forKey: kCIInputImageKey)
+        
+        let cgimg = context.createCGImage(currentFilter.outputImage!, fromRect: currentFilter.outputImage!.extent)
+        let processedImage = UIImage(CGImage: cgimg)
+        
+        imageView.image = processedImage
     }
 }
 
