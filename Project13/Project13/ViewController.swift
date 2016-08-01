@@ -15,6 +15,9 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
     
     var currentImage: UIImage!
     
+    var context: CIContext!
+    var currentFilter: CIFilter!
+    
     @IBAction func changeFilter(sender: AnyObject) {
     }
     
@@ -32,6 +35,8 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
         // Creates a '+' bar button item at the top and calls the importPicture method
         navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .Add, target: self, action: #selector(importPicture))
        
+        context = CIContext(options: nil)
+        currentFilter = CIFilter(name: "CISepiaTone")
     }
 
     override func didReceiveMemoryWarning() {
@@ -61,6 +66,12 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
         dismissViewControllerAnimated(true, completion: nil)
         
         currentImage = newImage
+        
+        // Create a CIImage object with the current image and pass into the filter
+        let beginImage = CIImage(image: currentImage)
+        currentFilter.setValue(beginImage, forKey: kCIInputImageKey)
+        
+        applyProcessing()
     }
     
     // This method closes the Image Picker Controller when user presses cancel
