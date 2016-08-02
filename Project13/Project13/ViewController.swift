@@ -19,14 +19,14 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
     var currentFilter: CIFilter!
     
     @IBAction func changeFilter(sender: AnyObject) {
+        let filterChoices = ["CIBumpDistortion", "CIGaussianBlur", "CIPixellate", "CISepiaTone", "CITwirlDistortion", "CIUnsharpMask", "CIVignette"]
+        
         let ac = UIAlertController(title: "Choose Filter", message: nil, preferredStyle: .ActionSheet)
-        ac.addAction(UIAlertAction(title: "CIBumpDistortion", style: .Default, handler: setFilter))
-        ac.addAction(UIAlertAction(title: "CIGaussianBlur", style: .Default, handler: setFilter))
-        ac.addAction(UIAlertAction(title: "CIPixellate", style: .Default, handler: setFilter))
-        ac.addAction(UIAlertAction(title: "CISepiaTone", style: .Default, handler: setFilter))
-        ac.addAction(UIAlertAction(title: "CITwirlDistortion", style: .Default, handler: setFilter))
-        ac.addAction(UIAlertAction(title: "CIUnsharpMask", style: .Default, handler: setFilter))
-        ac.addAction(UIAlertAction(title: "CIVignette", style: .Default, handler: setFilter))
+        
+        for filter in filterChoices {
+            ac.addAction(UIAlertAction(title: filter, style: .Default, handler: setFilter))
+        }
+        
         presentViewController(ac, animated: true, completion: nil)
     }
     
