@@ -19,6 +19,15 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
     var currentFilter: CIFilter!
     
     @IBAction func changeFilter(sender: AnyObject) {
+        let ac = UIAlertController(title: "Choose Filter", message: nil, preferredStyle: .ActionSheet)
+        ac.addAction(UIAlertAction(title: "CIBumpDistortion", style: .Default, handler: setFilter))
+        ac.addAction(UIAlertAction(title: "CIGaussianBlur", style: .Default, handler: setFilter))
+        ac.addAction(UIAlertAction(title: "CIPixellate", style: .Default, handler: setFilter))
+        ac.addAction(UIAlertAction(title: "CISepiaTone", style: .Default, handler: setFilter))
+        ac.addAction(UIAlertAction(title: "CITwirlDistortion", style: .Default, handler: setFilter))
+        ac.addAction(UIAlertAction(title: "CIUnsharpMask", style: .Default, handler: setFilter))
+        ac.addAction(UIAlertAction(title: "CIVignette", style: .Default, handler: setFilter))
+        presentViewController(ac, animated: true, completion: nil)
     }
     
     @IBAction func save(sender: AnyObject) {
@@ -81,11 +90,13 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
     }
     
     func applyProcessing() {
+        // Sets intensity slider value as the value for the key kCIInputImageKey
         currentFilter.setValue(intensity.value, forKey: kCIInputImageKey)
-        
+        // Creates data type called CGImage
         let cgimg = context.createCGImage(currentFilter.outputImage!, fromRect: currentFilter.outputImage!.extent)
+        // Creates a UIImage from the CGImage
         let processedImage = UIImage(CGImage: cgimg)
-        
+        // Assigns UIImage to the image view
         imageView.image = processedImage
     }
 }
